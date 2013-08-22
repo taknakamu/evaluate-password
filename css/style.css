@@ -1,0 +1,35 @@
+.password-bar {
+    background-color: #EEEEEE;
+    height: 6px;
+    margin: 4px 0 10px;
+    width: 295px;
+}
+
+[class^="password-level"] {
+    height: 6px;
+}
+
+.password-level0 {
+    width: 60px;
+    background-color: #A74C5B;
+}
+
+.password-level1 {
+    width: 90px;
+    background-color: #A74C5B;
+}
+
+.password-level2 {
+    width: 160px;
+    background-color: #DBC87C;
+}
+
+.password-level3 {
+    width: 210px;
+    background-color: #6BB2B8;
+}
+
+.password-level4 {
+    width: 295px;
+    background-color: #3598DB;
+}
