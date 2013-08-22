@@ -118,7 +118,7 @@ Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.p
 
                     if (dicattack) {
                         $.each(dicattack, function(i, v) {
-                            if (val.match(new RegExp(v)) && v.length < 17) {
+                            if (val.match(new RegExp(v)) && val.length < 17) {
                                 if ("" === val.replace(new RegExp(v, "g"), "")) {
                                     level = 1;
                                 }
