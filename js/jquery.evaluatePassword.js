@@ -1,5 +1,5 @@
 /*
-evaluatePassword v1.0.0
+evaluatePassword v1.0.1
 Author: taknakamu
 Git: https://github.com/taknakamu/evaluate-password
 
@@ -8,43 +8,47 @@ Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.p
 */
 (function ($) {
     $.fn.extend({
-        evaluatePassword: function() {
+        evaluatePassword: function(options) {
 
             var defaults = {
-                minimum_length: 8,
-                runOnInit: true,
-                autoCreateForm: true,
-                dictionaryCheck: true,
-                dictionaryJsonPath: "../dicrionay.json",
-                requireStringKind: 1
+                minimum_length     : 8,
+                runOnInit          : true,
+                autoCreateForm     : false,
+                dictionaryCheck    : true,
+                dictionaryJsonPath : "../dicrionay.json",
+                requireStringKind  : 1,
+                levels             : {
+                                        "0": "短すぎます",
+                                        "1": "低",
+                                        "2": "中",
+                                        "3": "良好",
+                                        "4": "高"
+                                     },
+                patterns           : [
+                                        "[a-z]",
+                                        "[A-Z]",
+                                        "[0-9]",
+                                        "-_"
+                                     ]
+
             }
+            options = $.extend(defaults, options);
 
-            var levels = {
-                "0": "短すぎます",
-                "1": "低",
-                "2": "中",
-                "3": "良好",
-                "4": "高"
-            }
-
-            var patterns = [
-                "[a-z]",
-                "[A-Z]",
-                "[0-9]",
-                "-_"
-            ];
-
-            var dicattack = null;
-
-            if (defaults.dictionaryCheck) {
-                $.getJSON(defaults.dictionaryJsonPath, function(data) {
-                    dicattack = data;
-                });
+            if (options.dictionaryCheck) {
+                if (!$.evaluate_password) {
+                    $.getJSON(options.dictionaryJsonPath, function(data) {
+                        $.extend({
+                            "evaluate_password": {
+                                "dictionaly": data
+                            }
+                        });
+                    });
+                }
             }
 
             var target_form = $("[data-target=" + $(this).attr("id") + "]");
 
-            if (defaults.autoCreateForm) {
+            if (options.autoCreateForm) {
                 createPasswordMeter();
             }
 
@@ -69,10 +73,10 @@ Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.p
 
                 $level.removeClass();
 
-                if (val_length < defaults.minimum_length) {
+                if (val_length < options.minimum_length) {
                     level = 0;
                 } else {
-                    if (defaults.minimum_length <= val_length && val_length <= 10) {
+                    if (options.minimum_length <= val_length && val_length <= 10) {
                         level = 1;
                     } else if (11 <= val_length) {
                         level = 2;
@@ -106,18 +110,18 @@ Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.p
 
                     var countStringKind = 0;
 
-                    $.each(patterns, function(i, v) {
+                    $.each(options.patterns, function(i, v) {
                         if (val.match(new RegExp(v))) {
                             countStringKind++;
                         }
                     });
 
-                    if (countStringKind < defaults.requireStringKind) {
+                    if (countStringKind < options.requireStringKind) {
                         level = 1;
                     }
 
-                    if (dicattack) {
-                        $.each(dicattack, function(i, v) {
+                    if (options.dictionaryCheck && $.evaluate_password) {
+                        $.each($.evaluate_password.dictionaly, function(i, v) {
                             if (val.match(new RegExp(v)) && val.length < 17) {
                                 if ("" === val.replace(new RegExp(v, "g"), "")) {
                                     level = 1;
@@ -126,13 +130,13 @@ Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.p
                         });
                     }
                 }
-                $status.text(levels[level]);
-                $level.addClass("password-level" + level);
 
-                return level;
+                $status.text(options.levels[level]);
+                $level.addClass("password-level" + level);
+                $(this)[0].level = level;
             }
 
-            if (defaults.runOnInit) {
+            if (options.runOnInit) {
                 this.each(function () {
                     return evaluatePassword.apply(this);
                 });
