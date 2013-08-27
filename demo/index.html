@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>demo - Evaluate Password</title>
+
+    <link href="../css/style.css" rel="stylesheet">
+
+  <body>
+
+    <div style="width: 350px;">
+        <input type="password" name="password" maxLength="64" id="login_pass" style="width: 250px"/>
+        <div>
+            <div class="password-strength" data-target="login_pass"></div>
+            <div>
+                Use at least 8 characters.
+            </div>
+        </div>
+    </div>
+
+    <script src='./jquery/jquery-1.8.2.min.js' type='text/javascript'></script>
+    <script src='../js/jquery.evaluatePassword.min.js' type='text/javascript'></script>
+    <script language='javascript'>
+        $(document).ready(function() {
+            $("#login_pass").evaluatePassword({
+                "autoCreateForm" : true,
+                "minimum_length" : 8,
+                "levels" : {
+                    "0" : "Too short",
+                    "1" : "Weak",
+                    "2" : "Fair",
+                    "3" : "Good",
+                    "4" : "Strong"
+                }
+            });
+        });
+    </script>
+
+</body></html>
