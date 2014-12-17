@@ -15,7 +15,7 @@ Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.p
                 runOnInit          : true,
                 autoCreateForm     : false,
                 dictionaryCheck    : true,
-                dictionaryJsonPath : "../dicrionay.json",
+                dictionaryJsonPath : "../dictionary.json",
                 requireStringKind  : 1,
                 levels             : {
                                         "0": "短すぎます",
