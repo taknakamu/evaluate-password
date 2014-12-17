@@ -43,15 +43,15 @@ defaults.autoCreateForm: false
 ```
 
 #### dictionaryCheck
-Load "dicrionay.json"
+Load "dictionary.json"
 ```
 defaults.dictionaryCheck: true
 ```
 
 #### dictionaryJsonPath
-path/to/dicrionay.json
+path/to/dictionary.json
 ```
-defaults.dictionaryJsonPath: "../dicrionay.json"
+defaults.dictionaryJsonPath: "../dictionary.json"
 ```
 
 #### requireStringKind
